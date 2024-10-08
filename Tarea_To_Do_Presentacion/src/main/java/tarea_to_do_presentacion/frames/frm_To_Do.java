@@ -2,6 +2,8 @@ package tarea_to_do_presentacion.frames;
 
 import java.awt.Component;
 import static java.awt.SystemColor.control;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
@@ -280,21 +282,16 @@ public class frm_To_Do extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void jEliminarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEliminarTareaActionPerformed
-         // Obtener la fila seleccionada
         int row = jTarea.getSelectedRow();
 
-        // Verificar si se ha seleccionado una fila
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, selecciona una tarea para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Obtener el ID de la tarea desde la tabla (en la primera columna, pero sin mostrarlo)
-        Object idValue = jTarea.getValueAt(row, 3);  // Obtener el valor de la primera columna
-        System.out.println("Valor de ID en la tabla: " + idValue);  // Línea para depurar
+        Object idValue = jTarea.getValueAt(row, 3);  
         Long tareaId = null;
 
-        // Verificar si el valor es un String y convertirlo a Long
         if (idValue instanceof String) {
             try {
                 tareaId = Long.valueOf((String) idValue);
@@ -303,7 +300,7 @@ public class frm_To_Do extends javax.swing.JFrame {
                 return;
             }
         } else if (idValue instanceof Long) {
-            tareaId = (Long) idValue;  // Si el valor ya es un Long, simplemente lo asignamos
+            tareaId = (Long) idValue; 
         } else {
             JOptionPane.showMessageDialog(this, "Tipo de ID no válido.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -318,7 +315,6 @@ public class frm_To_Do extends javax.swing.JFrame {
             }
         }
 
-        // Verificar si se encontró la tarea
         if (tareaAEliminar == null) {
             JOptionPane.showMessageDialog(this, "No se encontró la tarea seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -365,7 +361,7 @@ public class frm_To_Do extends javax.swing.JFrame {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        // Llenar las filas de la tabla
+
         for (Tarea_DTO tarea : tareas) {
             Calendar fecha = tarea.getFecha();
             String fechaFormateada = sdf.format(fecha.getTime());
@@ -387,7 +383,30 @@ public class frm_To_Do extends javax.swing.JFrame {
         table.getColumnModel().getColumn(3).setWidth(0);
 
         table.getColumnModel().getColumn(2).setCellEditor(new CheckBoxCellEditor(tareas));
+        
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {  
+                    int row = table.getSelectedRow();
+                    Long tareaId = (Long) table.getValueAt(row, 3);  
 
+                    Tarea_DTO tareaSeleccionada = null;
+                    for (Tarea_DTO tarea : tareas) {
+                        if (tarea.getId().equals(tareaId)) {
+                            tareaSeleccionada = tarea;
+                            break;
+                        }
+                    }
+
+                    if (tareaSeleccionada != null) {
+                        mostrarDescripcionTarea(tareaSeleccionada); 
+                    }
+                }
+            }
+        });
+        
+        
         table.getModel().addTableModelListener(e -> {
             if (e.getColumn() == 2) {
                 int row = e.getFirstRow();
@@ -477,6 +496,11 @@ public class frm_To_Do extends javax.swing.JFrame {
 
         llenarTabla(jTarea, tareas);
 
+    }
+    
+    
+    private void mostrarDescripcionTarea(Tarea_DTO tarea) {
+        JOptionPane.showMessageDialog(this, tarea.getDescripcion(),"Descripción de la Tarea: " + tarea.getDescripcion(), JOptionPane.INFORMATION_MESSAGE);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearTarea;
