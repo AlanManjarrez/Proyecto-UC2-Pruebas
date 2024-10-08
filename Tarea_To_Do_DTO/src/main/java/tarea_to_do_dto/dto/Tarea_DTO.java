@@ -1,6 +1,7 @@
 
 package tarea_to_do_dto.dto;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 /**
@@ -13,24 +14,27 @@ public class Tarea_DTO {
     private String nombre;
     private String descripcion;
     private Estado_DTO estado;
+    private Calendar fecha;
     private Usuario_DTO usuario;
     
     public Tarea_DTO() {
     }
 
-    public Tarea_DTO(Long id, String nombre, String descripcion, Estado_DTO estado,Usuario_DTO usuario) {
+    public Tarea_DTO(Long id, String nombre, String descripcion, Estado_DTO estado,Usuario_DTO usuario,Calendar fecha) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
         this.usuario=usuario;
+        this.fecha= fecha;
     }
 
-    public Tarea_DTO(String nombre, String descripcion, Estado_DTO estado,Usuario_DTO usuario) {
+    public Tarea_DTO(String nombre, String descripcion, Estado_DTO estado,Usuario_DTO usuario,Calendar fecha) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
         this.usuario = usuario;
+        this.fecha=fecha;
     }
 
     public Long getId() {
@@ -72,6 +76,14 @@ public class Tarea_DTO {
     public void setUsuario(Usuario_DTO usuario) {
         this.usuario = usuario;
     }
+
+    public Calendar getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Calendar fecha) {
+        this.fecha = fecha;
+    }   
 
     @Override
     public String toString() {

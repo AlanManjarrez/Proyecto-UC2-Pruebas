@@ -28,7 +28,7 @@ public class Tarea_dao {
                 throw new Exception("Usuario no encontrado");
             }
 
-            tarea.setUsuario(usuarioExistente); // Asignar el usuario existente
+            tarea.setUsuario(usuarioExistente); 
 
             entityManager.getTransaction().begin();
             entityManager.persist(tarea);

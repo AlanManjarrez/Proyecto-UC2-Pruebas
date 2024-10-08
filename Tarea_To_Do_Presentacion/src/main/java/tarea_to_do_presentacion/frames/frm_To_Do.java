@@ -1,11 +1,24 @@
 package tarea_to_do_presentacion.frames;
 
+import java.awt.Component;
 import static java.awt.SystemColor.control;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.EventObject;
 import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.AbstractCellEditor;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import tarea_to_do_control_tarea.negocio.Control_Tarea;
 import tarea_to_do_control_usuario.negocio.Control_Usuario;
+import tarea_to_do_dto.dto.Estado_DTO;
 import tarea_to_do_dto.dto.Tarea_DTO;
 import tarea_to_do_dto.dto.Usuario_DTO;
 
@@ -17,13 +30,17 @@ import tarea_to_do_dto.dto.Usuario_DTO;
 public class frm_To_Do extends javax.swing.JFrame {
 
     Usuario_DTO usuario;
-
+    Control_Usuario controlU;
+    Control_Tarea controlT;
     /**
      * Creates new form frm_To_Do
      */
     public frm_To_Do(Usuario_DTO usuario) {
         initComponents();
-        this.usuario = new Usuario_DTO();
+        this.usuario = usuario;
+        controlU =new Control_Usuario();
+        controlT= new Control_Tarea();
+        llenarTabla(jTarea, controlU.listaTareaUsuario(this.usuario));
     }
 
     /**
@@ -119,10 +136,25 @@ public class frm_To_Do extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTarea);
 
         jcbFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Completada", "Pendiente", "Todo" }));
+        jcbFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbFiltroActionPerformed(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Estado", "Fecha", " " }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Estado", "Fecha" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         jEliminarTarea.setText("Eliminar Tarea");
+        jEliminarTarea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEliminarTareaActionPerformed(evt);
+            }
+        });
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -210,14 +242,32 @@ public class frm_To_Do extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
-        frm_Modificar_Tarea modificar_Tarea = new frm_Modificar_Tarea();
+        int row = jTarea.getSelectedRow();
+
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona una tarea para modificar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Long tareaId = (Long) jTarea.getValueAt(row, 3);  
+
+        if (tareaId == null) {
+            JOptionPane.showMessageDialog(this, "No se pudo obtener el ID de la tarea.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Crear una nueva instancia del formulario de modificación y pasarle el ID
+        frm_Modificar_Tarea modificar_Tarea = new frm_Modificar_Tarea(this.usuario, tareaId);
+
+        // Hacer visible el formulario de modificación
         modificar_Tarea.setVisible(true);
+
+        // Cerrar la ventana actual
         this.dispose();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnCrearTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearTareaActionPerformed
-        frm_Crear_Tarea crear_tarea = new frm_Crear_Tarea();
+        frm_Crear_Tarea crear_tarea = new frm_Crear_Tarea(this.usuario);
         crear_tarea.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCrearTareaActionPerformed
@@ -228,12 +278,206 @@ public class frm_To_Do extends javax.swing.JFrame {
         inicio.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
-    
-    public void llenarTabla(JTable table, List<Tarea_DTO> tareas){
-        DefaultTableModel modelo= new DefaultTableModel();
+
+    private void jEliminarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEliminarTareaActionPerformed
+         // Obtener la fila seleccionada
+        int row = jTarea.getSelectedRow();
+
+        // Verificar si se ha seleccionado una fila
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona una tarea para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener el ID de la tarea desde la tabla (en la primera columna, pero sin mostrarlo)
+        Object idValue = jTarea.getValueAt(row, 3);  // Obtener el valor de la primera columna
+        System.out.println("Valor de ID en la tabla: " + idValue);  // Línea para depurar
+        Long tareaId = null;
+
+        // Verificar si el valor es un String y convertirlo a Long
+        if (idValue instanceof String) {
+            try {
+                tareaId = Long.valueOf((String) idValue);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "ID de tarea inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } else if (idValue instanceof Long) {
+            tareaId = (Long) idValue;  // Si el valor ya es un Long, simplemente lo asignamos
+        } else {
+            JOptionPane.showMessageDialog(this, "Tipo de ID no válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        List<Tarea_DTO> tareas = controlU.listaTareaUsuario(usuario);
+        Tarea_DTO tareaAEliminar = null;
+        for (Tarea_DTO tarea : tareas) {
+            if (tarea.getId().equals(tareaId)) {
+                tareaAEliminar = tarea;
+                break;
+            }
+        }
+
+        // Verificar si se encontró la tarea
+        if (tareaAEliminar == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró la tarea seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        controlT.eliminarTarea(tareaAEliminar);
         
+        tareas=controlU.listaTareaUsuario(usuario);
+        
+        llenarTabla(jTarea, tareas);
+
+        JOptionPane.showMessageDialog(this, "Tarea eliminada exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jEliminarTareaActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        actualizarTabla();
+    }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jcbFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbFiltroActionPerformed
+        actualizarTabla();
+    }//GEN-LAST:event_jcbFiltroActionPerformed
+    
+    private void llenarTabla(JTable table, List<Tarea_DTO> tareas) {
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 2; 
+            }
+
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 2) {
+                    return Boolean.class; 
+                }
+                return super.getColumnClass(columnIndex);
+            }
+        };
+
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("Estado");
+
+        modelo.addColumn("ID");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Llenar las filas de la tabla
+        for (Tarea_DTO tarea : tareas) {
+            Calendar fecha = tarea.getFecha();
+            String fechaFormateada = sdf.format(fecha.getTime());
+
+            boolean completada = tarea.getEstado() == Estado_DTO.COMPLETADAS;
+
+            modelo.addRow(new Object[] {
+                tarea.getNombre(),
+                fechaFormateada,
+                completada,
+                tarea.getId() 
+            });
+        }
+
+        table.setModel(modelo);
+
+        table.getColumnModel().getColumn(3).setMinWidth(0);
+        table.getColumnModel().getColumn(3).setMaxWidth(0);
+        table.getColumnModel().getColumn(3).setWidth(0);
+
+        table.getColumnModel().getColumn(2).setCellEditor(new CheckBoxCellEditor(tareas));
+
+        table.getModel().addTableModelListener(e -> {
+            if (e.getColumn() == 2) {
+                int row = e.getFirstRow();
+                boolean isChecked = (Boolean) table.getValueAt(row, 2);
+
+                Tarea_DTO tarea = tareas.get(row);
+
+                if (isChecked && tarea.getEstado() != Estado_DTO.COMPLETADAS) {
+                    controlT.cambiarEstado(tarea, Estado_DTO.COMPLETADAS);
+                } else if (!isChecked && tarea.getEstado() == Estado_DTO.COMPLETADAS) {
+                    table.setValueAt(true, row, 2); 
+                }
+            }
+        });
     }
 
+    class CheckBoxCellEditor extends AbstractCellEditor implements TableCellEditor {
+        private JCheckBox checkBox;
+        private boolean isEditable;
+
+        private List<Tarea_DTO> tareas;
+
+        public CheckBoxCellEditor(List<Tarea_DTO> tareas) {
+            this.checkBox = new JCheckBox();
+            this.isEditable = true;
+            this.tareas = tareas;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return checkBox.isSelected();
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            checkBox.setSelected((Boolean) value);
+
+            Tarea_DTO tarea = tareas.get(row);
+            boolean isCompletada = tarea.getEstado() == Estado_DTO.COMPLETADAS;
+
+            checkBox.setEnabled(!isCompletada); 
+
+            isEditable = !isCompletada; 
+
+            return checkBox;
+        }
+
+        @Override
+        public boolean isCellEditable(EventObject anEvent) {
+            return isEditable; 
+        }
+    }
+    
+    private void actualizarTabla() {
+        
+        List<Tarea_DTO> tareas = controlU.listaTareaUsuario(usuario);
+
+        String filtroSeleccionado = (String) jcbFiltro.getSelectedItem();
+
+        if (filtroSeleccionado != null && !filtroSeleccionado.equals("Todo")) {
+            tareas = tareas.stream().filter(t -> {
+                switch (filtroSeleccionado) {
+                    case "Completada":
+                        return t.getEstado() == Estado_DTO.COMPLETADAS;
+                    case "Pendiente":
+                        return t.getEstado() == Estado_DTO.PENDIENTES;
+                    default:
+                        return true; 
+                }
+            }).collect(Collectors.toList());
+        }
+
+        String ordenSeleccionado = (String) jComboBox2.getSelectedItem();
+        switch (ordenSeleccionado) {
+            case "Nombre":
+                Collections.sort(tareas, Comparator.comparing(Tarea_DTO::getNombre));
+                break;
+            case "Estado":
+                Collections.sort(tareas, Comparator.comparing(Tarea_DTO::getEstado));
+                break;
+            case "Fecha":
+                Collections.sort(tareas, Comparator.comparing(Tarea_DTO::getFecha));
+                break;
+            default:
+                break;
+        }
+
+        llenarTabla(jTarea, tareas);
+
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearTarea;
     private javax.swing.JButton btnModificar;

@@ -8,12 +8,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>Tarea_To_Do_DTO</artifactId>
+            <artifactId>Tareas_To_Do_Persistencia</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>Tareas_To_Do_Persistencia</artifactId>
+            <artifactId>Tarea_To_Do_DTO</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

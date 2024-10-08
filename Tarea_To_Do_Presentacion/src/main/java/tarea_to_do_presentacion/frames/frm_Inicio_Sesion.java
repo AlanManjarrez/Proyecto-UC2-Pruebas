@@ -40,7 +40,7 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        pfContra = new javax.swing.JPasswordField();
+        txtContra = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,10 +92,22 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Iniciar Sesion");
 
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyTyped(evt);
+            }
+        });
+
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Contraseña:");
+
+        txtContra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContraKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -112,7 +124,7 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pfContra)
+                    .addComponent(txtContra)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnIniciarSesion)
                         .addGap(62, 62, 62)
@@ -132,7 +144,7 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pfContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegresar)
@@ -163,9 +175,9 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         // TODO add your handling code here:
-        if (!txtUsuario.getText().isBlank() && pfContra.getPassword() != null) {
+        if (!txtUsuario.getText().isBlank() && txtContra.getPassword() != null) {
             String nUsuario = txtUsuario.getText();
-            char[] contra = pfContra.getPassword();
+            char[] contra = txtContra.getPassword();
             String passwordString = new String(contra);
             Usuario_DTO usuario = new Usuario_DTO(nUsuario, passwordString, null);
             Usuario_DTO usuarioEntrada = control.iniciarSesion(usuario);
@@ -179,13 +191,41 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
             }
         } else if (txtUsuario.getText().isBlank()) {
             JOptionPane.showMessageDialog(null, "Falta llenar el campo de usuario");
-        } else if (pfContra.getPassword() == null) {
+        } else if (txtContra.getPassword() == null) {
             JOptionPane.showMessageDialog(null, "Falta llenar campo de contraseña");
         } else {
             System.out.println("Cuate si llegaste aqui significa que te chingaste el sistema y ni yo se como");
         }
 
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
+
+    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
+        char caracter = evt.getKeyChar();
+         
+        if (!(Character.isLetterOrDigit(caracter) || caracter == ' ')) {
+            evt.consume();  
+        }
+        
+        String texto = txtUsuario.getText();
+
+        if (caracter == ' ' && texto.endsWith(" ")) {
+            evt.consume();  
+        }
+    }//GEN-LAST:event_txtUsuarioKeyTyped
+
+    private void txtContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraKeyTyped
+        char caracter = evt.getKeyChar();
+         
+        if (!(Character.isLetterOrDigit(caracter) || caracter == ' ')) {
+            evt.consume();  
+        }
+        
+        String texto = txtContra.getText();
+
+        if (caracter == ' ' && texto.endsWith(" ")) {
+            evt.consume();  
+        }
+    }//GEN-LAST:event_txtContraKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -197,7 +237,7 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField pfContra;
+    private javax.swing.JPasswordField txtContra;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

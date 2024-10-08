@@ -1,6 +1,7 @@
 
 package tarea_to_do_convertidores.convertidores;
 
+import java.util.Calendar;
 import tarea_to_do_dto.dto.Estado_DTO;
 import tarea_to_do_dto.dto.Tarea_DTO;
 import tarea_to_do_dto.dto.Usuario_DTO;
@@ -53,6 +54,7 @@ public class Convertidor {
         
         Usuario_DTO usuarioDTO = convUsuarioDTO(tarea.getUsuario());
         Estado_DTO estadoDTO = Estado_DTO.valueOf(tarea.getEstado().name());
+        Calendar fecha = tarea.getFecha();
         
         
         return new Tarea_DTO(
@@ -60,7 +62,8 @@ public class Convertidor {
             tarea.getNombre(),
             tarea.getDescripcion(),
             estadoDTO,
-            usuarioDTO
+            usuarioDTO,
+                fecha
         );
     }
     
@@ -76,6 +79,7 @@ public class Convertidor {
         tarea.setNombre(tareaDTO.getNombre());
         tarea.setDescripcion(tareaDTO.getDescripcion());
         tarea.setEstado(estado);
+        tarea.setFecha(tareaDTO.getFecha());
         
         Usuario usuario = convUsuario(tareaDTO.getUsuario());
         tarea.setUsuario(usuario);

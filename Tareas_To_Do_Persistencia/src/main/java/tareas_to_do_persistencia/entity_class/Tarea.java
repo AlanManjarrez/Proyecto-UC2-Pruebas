@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -36,6 +38,7 @@ public class Tarea implements Serializable {
     private Estado estado;
     
     @Column(name = "fecha", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Calendar fecha;
     
     @ManyToOne(cascade = CascadeType.PERSIST)
