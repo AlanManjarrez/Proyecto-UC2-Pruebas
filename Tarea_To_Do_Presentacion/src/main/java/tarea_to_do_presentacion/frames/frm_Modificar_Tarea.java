@@ -191,7 +191,7 @@ public class frm_Modificar_Tarea extends javax.swing.JFrame {
             
             Calendar fecha= Calendar.getInstance();
             
-            Tarea_DTO tarea= new Tarea_DTO(this.tarea,nombre, descrip, Estado_DTO.PENDIENTES, usuario,fecha);
+            Tarea_DTO tarea= new Tarea_DTO(this.tarea,nombre, descrip, Estado_DTO.COMPLETADAS, usuario,fecha);
             
             Tarea_DTO tareaHecha= control.editarTarea(tarea);
             if (tareaHecha!=null) {

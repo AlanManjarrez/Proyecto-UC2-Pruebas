@@ -100,6 +100,7 @@ public class Tarea_dao {
         }
         return false;
     }
+    
     public Tarea cambiarEstado(Tarea tarea, Estado tipoEstado) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
         EntityManager entityManager = entityManagerFactory.createEntityManager();

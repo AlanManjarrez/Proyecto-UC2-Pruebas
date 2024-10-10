@@ -258,13 +258,10 @@ public class frm_To_Do extends javax.swing.JFrame {
             return;
         }
 
-        // Crear una nueva instancia del formulario de modificación y pasarle el ID
         frm_Modificar_Tarea modificar_Tarea = new frm_Modificar_Tarea(this.usuario, tareaId);
 
-        // Hacer visible el formulario de modificación
         modificar_Tarea.setVisible(true);
 
-        // Cerrar la ventana actual
         this.dispose();
     }//GEN-LAST:event_btnModificarActionPerformed
 
