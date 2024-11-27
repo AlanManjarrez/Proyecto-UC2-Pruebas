@@ -28,7 +28,7 @@ public class Convertidor {
             usuario.getId(),
             usuario.getUser(),
             usuario.getContra(),
-            null 
+            null
         );
         
         return usuarioDTO;
