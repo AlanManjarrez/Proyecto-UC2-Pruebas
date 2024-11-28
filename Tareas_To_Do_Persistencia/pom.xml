@@ -57,6 +57,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
-        <exec.mainClass>com.mycompany.tareas_to_do_persistencia.Tareas_To_Do_Persistencia</exec.mainClass>
+        <exec.mainClass>tareas_to_do_persistencia.main.Tareas_To_Do_Persistencia</exec.mainClass>
     </properties>
 </project>
