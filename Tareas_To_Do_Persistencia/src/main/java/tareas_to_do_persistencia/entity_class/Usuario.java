@@ -91,7 +91,7 @@ public class Usuario implements Serializable {
     
     @Override
     public int hashCode() {
-        return Objects.hash(user, contra); // Solo los atributos relevantes
+        return Objects.hash(user, contra);
     }
 
     @Override

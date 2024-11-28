@@ -19,8 +19,18 @@ import tareas_to_do_persistencia.entity_class.Usuario;
  */
 public class Tarea_dao {
     
+    private EntityManagerFactory entityManagerFactory;
+    
+    public Tarea_dao() {
+        this.entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
+    }
+
+    // Constructor para pruebas (permite inyectar mocks)
+    public Tarea_dao(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
+    
     public Tarea crearTarea(Tarea tarea) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             Usuario usuarioExistente = entityManager.find(Usuario.class, tarea.getUsuario().getId());
@@ -28,7 +38,7 @@ public class Tarea_dao {
                 throw new Exception("Usuario no encontrado");
             }
 
-            tarea.setUsuario(usuarioExistente); // Asignar el usuario existente
+            tarea.setUsuario(usuarioExistente); 
 
             entityManager.getTransaction().begin();
             entityManager.persist(tarea);
@@ -48,7 +58,6 @@ public class Tarea_dao {
     }
     
     public Tarea editarTarea(Tarea tarea) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -78,7 +87,6 @@ public class Tarea_dao {
     }
     
     public Boolean eliminarrTarea(Tarea tarea) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -87,40 +95,52 @@ public class Tarea_dao {
                 entityManager.remove(tareaEncontrada);
                 entityManager.getTransaction().commit();
                 return true;
-            } 
+            } else {
+                
+                entityManager.getTransaction().rollback();
+            }
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
             e.printStackTrace();
-        }
-        finally{
+        } finally {
             entityManager.close();
             entityManagerFactory.close();
         }
         return false;
     }
+    
     public Tarea cambiarEstado(Tarea tarea, Estado tipoEstado) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
+        if (tarea == null || tarea.getId() == null) {
+            throw new IllegalArgumentException("La tarea o su ID no pueden ser nulos");
+        }
+        if (tipoEstado == null) {
+            throw new IllegalArgumentException("El estado no puede ser nulo");
+        }
+
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
+
             Tarea tareaEncontrada = entityManager.find(Tarea.class, tarea.getId());
+            if (tareaEncontrada == null) {
+                throw new IllegalArgumentException("La tarea con ID " + tarea.getId() + " no existe");
+            }
+
             tareaEncontrada.setEstado(tipoEstado);
-            
-            entityManager.merge(tareaEncontrada);
+            Tarea tareaActualizada = entityManager.merge(tareaEncontrada);
+
             entityManager.getTransaction().commit();
-            return tareaEncontrada;
+            return tareaActualizada;
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
             e.printStackTrace();
-        }
-        finally{
+            throw new RuntimeException("Error al cambiar el estado de la tarea", e);
+        } finally {
             entityManager.close();
-            entityManagerFactory.close();
         }
-        return null;
     }
 }

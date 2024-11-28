@@ -1,6 +1,7 @@
 package tarea_to_do_presentacion.frames;
 
 import static java.awt.SystemColor.control;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import tarea_to_do_control_tarea.negocio.Control_Tarea;
 import tarea_to_do_dto.dto.Estado_DTO;
@@ -19,10 +20,10 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
     /**
      * Creates new form frm_Crear_Tarea
      */
-    public frm_Crear_Tarea() {
+    public frm_Crear_Tarea(Usuario_DTO usuario) {
         initComponents();
         this.control = new Control_Tarea();
-        this.usuario = new Usuario_DTO();
+        this.usuario = usuario;
     }
 
     /**
@@ -96,6 +97,12 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Crear Tarea");
 
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -103,6 +110,11 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtDescripcion);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -175,9 +187,12 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
             String nombre= txtNombre.getText();
             String descrip= txtDescripcion.getText();
             
-            Tarea_DTO tarea= new Tarea_DTO(nombre, descrip, Estado_DTO.PENDIENTES, usuario);
+            Calendar fecha= Calendar.getInstance();
+            
+            Tarea_DTO tarea= new Tarea_DTO(nombre, descrip, Estado_DTO.PENDIENTES, this.usuario,fecha);
             
             Tarea_DTO tareaHecha= control.crearTarea(tarea);
+            System.out.println(fecha.getTime());
             if (tareaHecha!=null) {
                 JOptionPane.showMessageDialog(null, "Se agrego con exito la tarea");
                 frm_To_Do todo= new frm_To_Do(usuario);
@@ -194,6 +209,34 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
             System.out.println("no we vamos muy mal, ¿como terminaste aqui?");
         }
     }//GEN-LAST:event_btnCrearTareaActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        char caracter = evt.getKeyChar();
+         
+        if (!(Character.isLetterOrDigit(caracter) || caracter == ' ')) {
+            evt.consume();  
+        }
+        
+        String texto = txtNombre.getText();
+
+        if (caracter == ' ' && texto.endsWith(" ")) {
+            evt.consume();  
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
+        char caracter = evt.getKeyChar();
+         
+        if (!(Character.isLetterOrDigit(caracter) || caracter == ' ')) {
+            evt.consume();  
+        }
+        
+        String texto = txtDescripcion.getText();
+
+        if (caracter == ' ' && texto.endsWith(" ")) {
+            evt.consume();  
+        }
+    }//GEN-LAST:event_txtDescripcionKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

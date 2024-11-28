@@ -16,13 +16,13 @@ import tareas_to_do_persistencia.entity_class.Usuario;
  * @author Jesus Eduardo Villanueva Godoy 235078
  */
 public class Usuario_dao {
-     public Usuario crearUsuario(Usuario usuario) {
+    
+    public Usuario crearUsuario(Usuario usuario) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
 
-            // Verificar si el usuario ya existe en la base de datos
             String user = usuario.getUser();
             Usuario usuarioExistente = null;
             try {
@@ -34,12 +34,10 @@ public class Usuario_dao {
             }
 
             if (usuarioExistente == null) {
-                // El usuario no existe, lo creamos
                 entityManager.persist(usuario);
                 entityManager.getTransaction().commit();
                 return usuario;
             } else {
-                // Si el usuario ya existe, simplemente lo devolvemos (o lanzar un error si es necesario)
                 return usuarioExistente;
             }
         } catch (Exception e) {

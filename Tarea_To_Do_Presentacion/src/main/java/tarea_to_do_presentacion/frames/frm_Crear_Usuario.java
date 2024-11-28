@@ -91,10 +91,22 @@ public class frm_Crear_Usuario extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Crear Usuario");
 
+        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUserKeyTyped(evt);
+            }
+        });
+
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Crear Contraseña:");
+
+        pfContra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                pfContraKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -185,6 +197,34 @@ public class frm_Crear_Usuario extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
+
+    private void txtUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyTyped
+        char caracter = evt.getKeyChar();
+         
+        if (!(Character.isLetterOrDigit(caracter) || caracter == ' ')) {
+            evt.consume();  
+        }
+        
+        String texto = txtUser.getText();
+
+        if (caracter == ' ' && texto.endsWith(" ")) {
+            evt.consume();  
+        }
+    }//GEN-LAST:event_txtUserKeyTyped
+
+    private void pfContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfContraKeyTyped
+        char caracter = evt.getKeyChar();
+         
+        if (!(Character.isLetterOrDigit(caracter) || caracter == ' ')) {
+            evt.consume();  
+        }
+        
+        String texto = pfContra.getText();
+
+        if (caracter == ' ' && texto.endsWith(" ")) {
+            evt.consume();  
+        }
+    }//GEN-LAST:event_pfContraKeyTyped
 
     
 
