@@ -1,4 +1,3 @@
-
 package tareas_to_do_persistencia.daos;
 
 import java.util.List;
@@ -16,9 +15,18 @@ import tareas_to_do_persistencia.entity_class.Usuario;
  * @author Jesus Eduardo Villanueva Godoy 235078
  */
 public class Usuario_dao {
-    
+
+    private EntityManagerFactory entityManagerFactory;
+
+    public Usuario_dao() {
+        this.entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
+    }
+
+    public Usuario_dao(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
+
     public Usuario crearUsuario(Usuario usuario) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -30,7 +38,7 @@ public class Usuario_dao {
                         .setParameter("user", user)
                         .getSingleResult();
             } catch (NoResultException e) {
-                
+
             }
 
             if (usuarioExistente == null) {
@@ -51,9 +59,8 @@ public class Usuario_dao {
         }
         return null;
     }
-    
-    public Usuario IniciarSesión(Usuario usuario){
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
+
+    public Usuario IniciarSesión(Usuario usuario) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -65,7 +72,7 @@ public class Usuario_dao {
                     .getSingleResult();
             entityManager.getTransaction().commit();
             return usuarioEncontrado;
-        }catch (NoResultException e) {
+        } catch (NoResultException e) {
             // Manejo de caso cuando no se encuentra el usuario
             return null;
         } catch (Exception e) {
@@ -73,51 +80,47 @@ public class Usuario_dao {
                 entityManager.getTransaction().rollback();
             }
             e.printStackTrace();
-        }
-        finally{
+        } finally {
             entityManager.close();
             entityManagerFactory.close();
         }
         return null;
     }
-    
-    public List<Tarea> consultarLista(Usuario usuario){
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
+
+    public List<Tarea> consultarLista(Usuario usuario) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<Tarea> tareas = null; 
+        List<Tarea> tareas = null;
         try {
             entityManager.getTransaction().begin();
-            
+
             tareas = entityManager.createQuery("SELECT t FROM tarea t WHERE t.usuario =:usuarioId", Tarea.class)
-                .setParameter("usuarioId", usuario)
-                .getResultList();
-                    
+                    .setParameter("usuarioId", usuario)
+                    .getResultList();
+
             entityManager.getTransaction().commit();
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
             e.printStackTrace();
-        }
-        finally{
+        } finally {
             entityManager.close();
             entityManagerFactory.close();
         }
         return tareas;
     }
-    
-    public List<Tarea> consultarListaEstadoCompletado(Usuario usuario, Estado estado){
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("conexionPU");
+
+    public List<Tarea> consultarListaEstadoCompletado(Usuario usuario, Estado estado) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
-            
+
             List<Tarea> tareas = entityManager.createQuery(
-                "SELECT T FROM tarea T WHERE T.usuario = :usuario AND T.estado = :estado", Tarea.class)
-                .setParameter("usuario", usuario)
-                .setParameter("estado", estado)
-                .getResultList();
-                    
+                    "SELECT T FROM tarea T WHERE T.usuario = :usuario AND T.estado = :estado", Tarea.class)
+                    .setParameter("usuario", usuario)
+                    .setParameter("estado", estado)
+                    .getResultList();
+
             entityManager.getTransaction().commit();
             return tareas;
         } catch (Exception e) {
@@ -125,8 +128,7 @@ public class Usuario_dao {
                 entityManager.getTransaction().rollback();
             }
             e.printStackTrace();
-        }
-        finally{
+        } finally {
             entityManager.close();
             entityManagerFactory.close();
         }
