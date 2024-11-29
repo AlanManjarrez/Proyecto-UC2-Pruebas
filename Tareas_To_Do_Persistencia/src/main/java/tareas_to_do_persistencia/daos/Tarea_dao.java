@@ -112,20 +112,15 @@ public class Tarea_dao {
     }
     
     public Tarea cambiarEstado(Tarea tarea, Estado tipoEstado) {
-        if (tarea == null || tarea.getId() == null) {
-            throw new IllegalArgumentException("La tarea o su ID no pueden ser nulos");
-        }
-        if (tipoEstado == null) {
-            throw new IllegalArgumentException("El estado no puede ser nulo");
-        }
-
+        
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
 
             Tarea tareaEncontrada = entityManager.find(Tarea.class, tarea.getId());
             if (tareaEncontrada == null) {
-                throw new IllegalArgumentException("La tarea con ID " + tarea.getId() + " no existe");
+                entityManager.getTransaction().rollback();
+                return null;
             }
 
             tareaEncontrada.setEstado(tipoEstado);
@@ -142,5 +137,6 @@ public class Tarea_dao {
         } finally {
             entityManager.close();
         }
+       
     }
 }

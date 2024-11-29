@@ -46,7 +46,7 @@ public class Usuario_dao {
                 entityManager.getTransaction().commit();
                 return usuario;
             } else {
-                return usuarioExistente;
+                return null;
             }
         } catch (Exception e) {
             if (entityManager.getTransaction().isActive()) {

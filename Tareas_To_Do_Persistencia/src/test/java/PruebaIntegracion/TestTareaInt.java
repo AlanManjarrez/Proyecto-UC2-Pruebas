@@ -95,14 +95,16 @@ public class TestTareaInt {
         assertEquals(nuevoEstado, tareaActualizada.getEstado(), "El estado de la tarea debe ser el esperado");
     }
     
-    /*
+    
     @Test
     public void testEliminarTarea(){
         Tarea tareaExistente = new Tarea();
-        tareaExistente.setId(57L);
+        tareaExistente.setId(71L);
         
         boolean resultado = tareaDao.eliminarrTarea(tareaExistente);
         
         assertTrue(resultado,"No se ha eliminado");
-    }*/
+    }
+    
+    
 }

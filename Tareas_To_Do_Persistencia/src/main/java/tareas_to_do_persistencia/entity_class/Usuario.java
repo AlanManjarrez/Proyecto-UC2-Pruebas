@@ -41,13 +41,6 @@ public class Usuario implements Serializable {
         this.tareas = tareas;
     }
 
-    public Usuario(Long id, String user, String contra, List<Tarea> tareas) {
-        this.id = id;
-        this.user = user;
-        this.contra = contra;
-        this.tareas = tareas;
-    }
-
     public String getUser() {
         return user;
     }
@@ -82,20 +75,11 @@ public class Usuario implements Serializable {
     
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true; 
-        if (obj == null || getClass() != obj.getClass()) return false; 
-        Usuario usuario = (Usuario) obj; // Hacer cast
-        return Objects.equals(user, usuario.user) && 
-               Objects.equals(contra, usuario.contra); 
+        if (this == obj) return true;
+        if (!(obj instanceof Usuario)) return false;
+        Usuario usuario = (Usuario) obj;
+        return Objects.equals(user, usuario.user) &&
+               Objects.equals(contra, usuario.contra);
     }
     
-    @Override
-    public int hashCode() {
-        return Objects.hash(user, contra);
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" + "id=" + id + ", user=" + user + ", contra=" + contra + ", tareas=" + tareas + '}';
-    }
 }

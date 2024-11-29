@@ -56,14 +56,6 @@ public class Tarea implements Serializable {
         this.usuario = usuario;
     }
     
-    public Tarea(Long id, String nombre, String descripcion, Estado estado, Calendar fecha, Usuario usuario) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.estado = estado;
-        this.fecha = fecha;
-        this.usuario = usuario;
-    }
 
     public String getNombre() {
         return nombre;
@@ -113,8 +105,4 @@ public class Tarea implements Serializable {
         this.usuario = usuario;
     }
     
-    @Override
-    public String toString() {
-        return "Tarea{" + "id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", estado=" + estado + '}';
-    }
 }

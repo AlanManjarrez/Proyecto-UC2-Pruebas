@@ -137,29 +137,30 @@ public class TestTarea {
         assertFalse(resultado);
     }
     
-    /*
+    
     @Test
     public void testCambiarEstado() {
-        Tarea tarea = new Tarea();
-        tarea.setId(1L);
 
         Tarea tareaExistente = new Tarea();
         tareaExistente.setId(1L);
         tareaExistente.setEstado(Estado.PENDIENTES);
 
         when(mockEntityManager.find(Tarea.class, 1L)).thenReturn(tareaExistente);
+        when(mockEntityManager.merge(any(Tarea.class))).thenReturn(tareaExistente);
+        when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
 
-        Tarea resultado = tareaDao.cambiarEstado(tarea, Estado.COMPLETADAS);
-
-        verify(mockTransaction).begin();
-        verify(mockEntityManager).merge(tareaExistente);
-        verify(mockTransaction).commit();
+        Tarea resultado = tareaDao.cambiarEstado(tareaExistente, Estado.COMPLETADAS);
 
         assertNotNull(resultado);
         assertEquals(Estado.COMPLETADAS, resultado.getEstado());
+        
+        // Verificar que se haya llamado al merge para actualizar la tarea en la base de datos
+        verify(mockEntityManager).merge(tareaExistente);
+        verify(mockTransaction).begin();
+        verify(mockTransaction).commit();
     }
     
-    /*
+    
     @Test
     public void testCambiarEstadoTareaNoEncontrada() {
         Tarea tarea = new Tarea();
@@ -167,12 +168,20 @@ public class TestTarea {
 
         Estado nuevoEstado = Estado.COMPLETADAS;
 
-        when(mockEntityManager.find(Tarea.class, 1L)).thenReturn(null);
+        // Simulación de que no se encuentra la tarea
+        when(mockEntityManager.find(Tarea.class, tarea.getId())).thenReturn(null);
 
+        // Simular el comportamiento del EntityManagerFactory
+        when(mockEntityManagerFactory.createEntityManager()).thenReturn(mockEntityManager);
+        when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+        // Cambiar el estado
         Tarea resultado = tareaDao.cambiarEstado(tarea, nuevoEstado);
 
-        verify(mockTransaction).begin();
-        verify(mockTransaction).rollback();
-        assertNull(resultado);
-    }*/
+        // Verificaciones
+        verify(mockTransaction).begin(); // Verifica que se llame a begin()
+        verify(mockTransaction).rollback(); // Verifica que se llame a rollback()
+        assertNull(resultado); 
+        
+    }
 }
