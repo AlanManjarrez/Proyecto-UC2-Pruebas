@@ -1,9 +1,8 @@
-package PruebasIntegracion;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
+package PruebasIntegracion;
 
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -19,11 +18,11 @@ import tarea_to_do_dto.dto.Usuario_DTO;
 
 /**
  *
- * @author joarv
+ * @author JESUS
  */
-public class PruebasInt {
+public class PruebaInt {
     
-    public PruebasInt() {
+    public PruebaInt() {
     }
     
     private Control_Usuario controlUsuario;
@@ -37,50 +36,46 @@ public class PruebasInt {
     @Test
     void testCrearUsuario() {
         Usuario_DTO nuevoUsuario = new Usuario_DTO();
-        nuevoUsuario.setUser("usuario_prueba");
+        nuevoUsuario.setUser("usuario_prueba8");
         nuevoUsuario.setContra("123456");
 
         Usuario_DTO usuarioCreado = controlUsuario.crearUsuario(nuevoUsuario);
         assertNotNull(usuarioCreado);
-        assertEquals("usuario_prueba", usuarioCreado.getUser());
-    }
+        assertEquals("usuario_prueba8", usuarioCreado.getUser());
+    }*/
 
+    
     @Test
     void testIniciarSesion() {
         Usuario_DTO usuario = new Usuario_DTO();
-        usuario.setUser("perez");
-        usuario.setContra("1234"); // Contraseña correcta
+        usuario.setUser("JOSH");
+        usuario.setContra("123"); // Contraseña correcta
 
         Usuario_DTO usuarioLogueado = controlUsuario.iniciarSesion(usuario);
         assertNotNull(usuarioLogueado);
-        assertEquals("perez", usuarioLogueado.getUser());
+        assertEquals("JOSH", usuarioLogueado.getUser());
     }
 
+    
     @Test
     void testListaTareaUsuario() {
         Usuario_DTO usuario = new Usuario_DTO();
-        usuario.setId(3L); // ID de un usuario existente
+        usuario.setId(2L); // ID de un usuario existente
 
         List<Tarea_DTO> tareas = controlUsuario.listaTareaUsuario(usuario);
         assertNotNull(tareas);
         assertFalse(tareas.isEmpty());
     }
-
+    
+    
     @Test
     void testListaTareaEstado() {
         Usuario_DTO usuario = new Usuario_DTO();
-        usuario.setId(3L); // ID de un usuario existente
+        usuario.setId(2L); // ID de un usuario existente
         
 
         List<Tarea_DTO> tareas = controlUsuario.listaTareaEstado(usuario, Estado_DTO.COMPLETADAS);
         assertNotNull(tareas);
         assertFalse(tareas.isEmpty());
     }
-
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}*/
 }

@@ -52,7 +52,6 @@ public class Tarea_dao {
         }
         finally{
             entityManager.close();
-            entityManagerFactory.close();
         }
         return null;
     }
@@ -81,7 +80,6 @@ public class Tarea_dao {
         }
         finally{
             entityManager.close();
-            entityManagerFactory.close();
         }
         return null;
     }
@@ -106,7 +104,6 @@ public class Tarea_dao {
             e.printStackTrace();
         } finally {
             entityManager.close();
-            entityManagerFactory.close();
         }
         return false;
     }

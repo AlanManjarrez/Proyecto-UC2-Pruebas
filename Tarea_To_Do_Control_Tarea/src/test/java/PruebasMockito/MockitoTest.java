@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
-package PruebaMockito;
+package PruebasMockito;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -26,9 +26,9 @@ import tareas_to_do_persistencia.entity_class.Tarea;
  *
  * @author JESUS
  */
-public class PruebaMocki {
+public class MockitoTest {
     
-    public PruebaMocki() {
+    public MockitoTest() {
     }
     
     @Mock
@@ -126,5 +126,4 @@ public class PruebaMocki {
         verify(tareaDaoMock).cambiarEstado(tareaEntity, estado);
         verify(convertidorMock).convTareaDTO(tareaEntity);
     }
-    
 }

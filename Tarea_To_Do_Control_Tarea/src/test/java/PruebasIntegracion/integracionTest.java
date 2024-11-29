@@ -1,9 +1,8 @@
-package PruebaIntegracion;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
+package PruebasIntegracion;
 
 import java.util.Calendar;
 import org.junit.jupiter.api.AfterEach;
@@ -19,11 +18,11 @@ import tarea_to_do_dto.dto.Usuario_DTO;
 
 /**
  *
- * @author joarv
+ * @author JESUS
  */
-public class PruebasInt {
+public class integracionTest {
     
-    public PruebasInt() {
+    public integracionTest() {
     }
     
     private Control_Tarea controlTarea;
@@ -94,5 +93,4 @@ public class PruebasInt {
         Tarea_DTO tareaActualizada = controlTarea.cambiarEstado(tarea, nuevoEstado);
         assertNotNull(tareaActualizada);
     }
-
 }

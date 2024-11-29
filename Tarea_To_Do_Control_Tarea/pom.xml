@@ -45,11 +45,15 @@
     <build>
         <plugins>
             <plugin> 
-                <groupId>org.apache.maven.plugins</groupId> 
-                <artifactId>maven-surefire-plugin</artifactId> 
-                <version>2.22.1</version> 
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M9</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
             </plugin>
-            
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
@@ -78,6 +82,7 @@
                         <mutator>NULL_RETURNS</mutator>
                         <mutator>REMOVE_CONDITIONALS</mutator>
                         <mutator>TRUE_RETURNS</mutator>
+                        
                     </mutators>
                     <outputformats>
                         <outputformat>HTML</outputformat>
@@ -85,13 +90,13 @@
                     </outputformats>
                     <timestampedreports>false</timestampedreports>
                     <targetTests>
-                        <param>PruebaMockito.*</param>
-                        <param>PruebaIntegracion.*</param>
+                        <param>PruebasMockitos.*</param>
+                        <param>PruebasIntegracion.*</param>
                     </targetTests>
                     <verbose>true</verbose>
                 </configuration>
             </plugin>
-            
+           
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -102,7 +107,7 @@
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
-                        <phase>test-compile</phase> 
+                        <phase>initialize</phase>
                     </execution>
                     <execution>
                         <id>report</id>
@@ -115,6 +120,9 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <destFile>${project.build.directory}/jacoco.exec</destFile>
+                </configuration>
             </plugin>
         </plugins>
     </build>

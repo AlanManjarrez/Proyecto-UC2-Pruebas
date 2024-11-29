@@ -36,7 +36,7 @@ public class TestUsuarioInt {
     @Test
     public void testCrearUsuarioDatosValidos(){
         //Configurar datos para crear un usuario
-        Usuario usuario= new Usuario("Prueba15", "usuario", null);
+        Usuario usuario= new Usuario("Prueba16", "usuario", null);
         
         //Crear el usuario
         Usuario respuesta= usuarioDAO.crearUsuario(usuario);

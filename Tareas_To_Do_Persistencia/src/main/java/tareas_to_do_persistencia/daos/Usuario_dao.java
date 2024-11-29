@@ -55,7 +55,6 @@ public class Usuario_dao {
             e.printStackTrace();
         } finally {
             entityManager.close();
-            entityManagerFactory.close();
         }
         return null;
     }
@@ -82,7 +81,6 @@ public class Usuario_dao {
             e.printStackTrace();
         } finally {
             entityManager.close();
-            entityManagerFactory.close();
         }
         return null;
     }
@@ -105,7 +103,6 @@ public class Usuario_dao {
             e.printStackTrace();
         } finally {
             entityManager.close();
-            entityManagerFactory.close();
         }
         return tareas;
     }
@@ -130,7 +127,6 @@ public class Usuario_dao {
             e.printStackTrace();
         } finally {
             entityManager.close();
-            entityManagerFactory.close();
         }
         return null;
     }
