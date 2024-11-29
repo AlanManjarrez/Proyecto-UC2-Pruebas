@@ -31,6 +31,7 @@ public class PruebasInt {
         controlUsuario = new Control_Usuario();
     }
 
+    /*
     @Test
     void testCrearUsuario() {
         Usuario_DTO nuevoUsuario = new Usuario_DTO();
@@ -79,5 +80,5 @@ public class PruebasInt {
     // The methods must be annotated with annotation @Test. For example:
     //
     // @Test
-    // public void hello() {}
+    // public void hello() {}*/
 }

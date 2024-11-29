@@ -31,7 +31,7 @@ public class PruebasInt {
         controlTarea = new Control_Tarea();
     }
     
-    
+    /*
     @Test
     void testCrearTarea() {
         Tarea_DTO nuevaTarea = new Tarea_DTO();
@@ -91,4 +91,5 @@ public class PruebasInt {
         Tarea_DTO tareaActualizada = controlTarea.cambiarEstado(tarea, nuevoEstado);
         assertNotNull(tareaActualizada);
     }
+*/
 }

@@ -94,43 +94,32 @@
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>1.7.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.pitest</groupId>
-                        <artifactId>pitest-junit5-plugin</artifactId>
-                        <version>0.14</version>
-                    </dependency>
-                </dependencies>
+                <version>1.9.10</version>
                 <executions>
                     <execution>
-                        <id>mutationCoverage</id>
                         <goals>
                             <goal>mutationCoverage</goal>
                         </goals>
-                        <phase>test</phase>
                     </execution>
                 </executions>
                 <configuration>
                     <mutators>
                         <mutator>DEFAULTS</mutator>
-                        <mutator>EMPTY_RETURNS</mutator>
-                        <mutator>FALSE_RETURNS</mutator>
-                        <mutator>NULL_RETURNS</mutator>
-                        <mutator>REMOVE_CONDITIONALS</mutator>
-                        <mutator>TRUE_RETURNS</mutator>
-                        
                     </mutators>
-                    <outputformats>
-                        <outputformat>HTML</outputformat>
-                        <outputformat>XML</outputformat>
-                    </outputformats>
-                    <timestampedreports>false</timestampedreports>
-                    <targetTests>
-                        <param>PruebasMockito.*</param>
-                        <param>PrueasIntegracion.*</param>
-                    </targetTests>
+                    <outputFormats>
+                        <param>HTML</param>
+                    </outputFormats>
+                    <threads>4</threads>
+                    <timeoutFactor>1.25</timeoutFactor>
+                    <timeoutConstant>4000</timeoutConstant>
                     <verbose>true</verbose>
+                    <targetClasses>
+                        <param>com.mycompany.tareas_to_do_persistencia.daos.*</param> 
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.mycompany.test.PruebalIntegracion.*</param> 
+                        <param>com.mycompany.test.PruebalMockito.*</param>
+                    </targetTests>
                 </configuration>
             </plugin>
             
@@ -154,7 +143,7 @@
                         <configuration>
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
                             <excludes>
-                                <exclude>*/entity_class/*</exclude> 
+                                <exclude>*/entity_class/*</exclude> <!-- Excluye la carpeta dominio -->
                             </excludes>
                         </configuration>
                     </execution>

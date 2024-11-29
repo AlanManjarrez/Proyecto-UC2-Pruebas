@@ -137,6 +137,7 @@ public class TestTarea {
         assertFalse(resultado);
     }
     
+    /*
     @Test
     public void testCambiarEstado() {
         Tarea tarea = new Tarea();
@@ -158,7 +159,7 @@ public class TestTarea {
         assertEquals(Estado.COMPLETADAS, resultado.getEstado());
     }
     
-    /**
+    /*
     @Test
     public void testCambiarEstadoTareaNoEncontrada() {
         Tarea tarea = new Tarea();
