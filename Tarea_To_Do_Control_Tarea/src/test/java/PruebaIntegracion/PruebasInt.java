@@ -1,3 +1,5 @@
+package PruebaIntegracion;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
@@ -24,14 +26,14 @@ public class PruebasInt {
     public PruebasInt() {
     }
     
-     private Control_Tarea controlTarea;
+    private Control_Tarea controlTarea;
 
     @BeforeEach
     void setUp() {
         controlTarea = new Control_Tarea();
     }
     
-    /*
+    
     @Test
     void testCrearTarea() {
         Tarea_DTO nuevaTarea = new Tarea_DTO();
@@ -53,7 +55,7 @@ public class PruebasInt {
     @Test
     void testEditarTarea() {
         Tarea_DTO tareaExistente = new Tarea_DTO();
-        tareaExistente.setId(17L); 
+        tareaExistente.setId(26L); 
         tareaExistente.setNombre("Tarea Modificada");
         tareaExistente.setEstado(Estado_DTO.COMPLETADAS);
         tareaExistente.setFecha(Calendar.getInstance());
@@ -64,10 +66,11 @@ public class PruebasInt {
         assertEquals("Tarea Modificada", tareaEditada.getNombre());
     }
 
+    /*
     @Test
     void testEliminarTarea() {
         Tarea_DTO tareaEliminar = new Tarea_DTO();
-        tareaEliminar.setId(4L); 
+        tareaEliminar.setId(76L); 
         tareaEliminar.setDescripcion("SA");
         tareaEliminar.setEstado(Estado_DTO.COMPLETADAS);
         tareaEliminar.setNombre("assd");
@@ -75,12 +78,12 @@ public class PruebasInt {
 
         boolean eliminada = controlTarea.eliminarTarea(tareaEliminar);
         assertTrue(eliminada);
-    }
+    }*/
 
     @Test
     void testCambiarEstado() {
         Tarea_DTO tarea = new Tarea_DTO();
-        tarea.setId(18L); 
+        tarea.setId(21L); 
         tarea.setDescripcion("dsf");
         tarea.setNombre("prueba");
         tarea.setEstado(Estado_DTO.PENDIENTES);
@@ -91,5 +94,5 @@ public class PruebasInt {
         Tarea_DTO tareaActualizada = controlTarea.cambiarEstado(tarea, nuevoEstado);
         assertNotNull(tareaActualizada);
     }
-*/
+
 }

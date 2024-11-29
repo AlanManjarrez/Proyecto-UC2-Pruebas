@@ -19,8 +19,8 @@ import tareas_to_do_persistencia.entity_class.Tarea;
  * @author Jesus Eduardo Villanueva Godoy 235078
  */
 public class Control_Usuario {
-    Usuario_dao usu;
-    Convertidor conv;
+    public Usuario_dao usu;
+    public Convertidor conv;
     
     public Control_Usuario(){
         usu=new Usuario_dao();

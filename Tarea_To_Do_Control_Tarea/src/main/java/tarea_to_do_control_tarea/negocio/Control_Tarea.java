@@ -12,8 +12,8 @@ import tareas_to_do_persistencia.daos.Tarea_dao;
  */
 public class Control_Tarea {
 
-    Tarea_dao tarea;
-    Convertidor conv;
+    public Tarea_dao tarea;
+    public Convertidor conv;
 
     public Control_Tarea() {
         tarea = new Tarea_dao();
