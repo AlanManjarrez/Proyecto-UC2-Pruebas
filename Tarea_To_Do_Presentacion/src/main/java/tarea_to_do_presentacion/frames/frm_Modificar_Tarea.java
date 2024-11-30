@@ -18,15 +18,17 @@ public class frm_Modificar_Tarea extends javax.swing.JFrame {
     Usuario_DTO usuario;
     Control_Tarea control;
     Long tarea;
+    Estado_DTO estado;
 
     /**
      * Creates new form frm_Modificar_Tarea
      */
-    public frm_Modificar_Tarea(Usuario_DTO usuario,Long tarea) {
+    public frm_Modificar_Tarea(Usuario_DTO usuario,Long tarea,Estado_DTO estado) {
         initComponents();
         this.control = new Control_Tarea();
         this.usuario = usuario;
         this.tarea=tarea;
+        this.estado=estado;
         setResizable(false);
         setLocationRelativeTo(null);
     }
@@ -215,7 +217,7 @@ public class frm_Modificar_Tarea extends javax.swing.JFrame {
             
             Calendar fecha= Calendar.getInstance();
             
-            Tarea_DTO tarea= new Tarea_DTO(this.tarea,nombre, descrip, Estado_DTO.COMPLETADAS, usuario,fecha);
+            Tarea_DTO tarea= new Tarea_DTO(this.tarea,nombre, descrip, this.estado, usuario,fecha);
             
             Tarea_DTO tareaHecha= control.editarTarea(tarea);
             if (tareaHecha!=null) {

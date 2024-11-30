@@ -259,8 +259,11 @@ public class frm_To_Do extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pudo obtener el ID de la tarea.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+         Boolean estadoCompletada = (Boolean) jTarea.getValueAt(row, 2);
+        Estado_DTO estado = estadoCompletada ? Estado_DTO.COMPLETADAS : Estado_DTO.PENDIENTES;
 
-        frm_Modificar_Tarea modificar_Tarea = new frm_Modificar_Tarea(this.usuario, tareaId);
+        frm_Modificar_Tarea modificar_Tarea = new frm_Modificar_Tarea(this.usuario, tareaId,estado);
 
         modificar_Tarea.setVisible(true);
 
