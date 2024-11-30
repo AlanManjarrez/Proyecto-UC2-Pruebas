@@ -2,6 +2,7 @@
 package tarea_to_do_presentacion.frames;
 
 import static java.awt.SystemColor.control;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import tarea_to_do_control_usuario.negocio.Control_Usuario;
 import tarea_to_do_dto.dto.Usuario_DTO;
@@ -19,6 +20,8 @@ public class frm_Crear_Usuario extends javax.swing.JFrame {
     public frm_Crear_Usuario() {
         initComponents();
         this.control = new Control_Usuario();
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -174,10 +177,34 @@ public class frm_Crear_Usuario extends javax.swing.JFrame {
 
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
         // TODO add your handling code here:
-        if (!txtUser.getText().isBlank() && pfContra.getPassword() != null) {
-            String nUsuario = txtUser.getText();
-            char[] contra = pfContra.getPassword();
-            String passwordString = new String(contra);
+        String nUsuario = txtUser.getText().trim();
+        
+        if (nUsuario.isBlank() || nUsuario.replace(" ", "").isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre de usuario debe contener al menos un carácter válido.");
+            return;
+        }    
+        
+        if (nUsuario.length() > 100) {
+            JOptionPane.showMessageDialog(null, "El nombre de usuario no puede exceder los 100 caracteres.");
+            return;
+        }
+        
+        char[] contra = pfContra.getPassword();
+        String passwordString = new String(contra).trim(); // Convertir a String y eliminar espacios en blanco
+
+        // Validar que la contraseña no esté vacía o solo contenga espacios
+        if (passwordString.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "La contraseña no puede estar vacía o contener solo espacios.");
+            return;
+        }
+        
+        if (passwordString.length() > 100) {
+            JOptionPane.showMessageDialog(null, "La contraseña no puede exceder los 100 caracteres");
+            return;
+        }
+        
+        if (!txtUser.getText().isBlank() && pfContra.getPassword() != null) {            
+            
             Usuario_DTO usuario = new Usuario_DTO(nUsuario, passwordString, null);
             Usuario_DTO usuarioEntrada = control.crearUsuario(usuario);
 
@@ -200,16 +227,25 @@ public class frm_Crear_Usuario extends javax.swing.JFrame {
 
     private void txtUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyTyped
         char caracter = evt.getKeyChar();
-         
+    
+        // Validar que solo se permitan letras, dígitos y espacio
         if (!(Character.isLetterOrDigit(caracter) || caracter == ' ')) {
             evt.consume();  
         }
-        
-        String texto = txtUser.getText();
 
+        String texto = txtUser.getText();
+        
+        // Prevenir que se ingrese más de 100 caracteres
+        if (texto.length() >= 101 && caracter != KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+        }
+        
+        // Prevenir espacios consecutivos
         if (caracter == ' ' && texto.endsWith(" ")) {
             evt.consume();  
         }
+
+        
     }//GEN-LAST:event_txtUserKeyTyped
 
     private void pfContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfContraKeyTyped
@@ -219,8 +255,13 @@ public class frm_Crear_Usuario extends javax.swing.JFrame {
             evt.consume();  
         }
         
-        String texto = pfContra.getText();
+        char[] contra = pfContra.getPassword();
+        String texto = new String(contra);
 
+        if (texto.length() >= 101 && caracter != KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+        }
+        
         if (caracter == ' ' && texto.endsWith(" ")) {
             evt.consume();  
         }

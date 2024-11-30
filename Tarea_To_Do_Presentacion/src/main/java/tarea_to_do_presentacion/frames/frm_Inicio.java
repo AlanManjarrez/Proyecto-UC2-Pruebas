@@ -13,6 +13,8 @@ public class frm_Inicio extends javax.swing.JFrame {
      */
     public frm_Inicio() {
         initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**

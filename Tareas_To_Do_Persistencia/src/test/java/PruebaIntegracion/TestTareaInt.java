@@ -99,7 +99,7 @@ public class TestTareaInt {
     @Test
     public void testEliminarTarea(){
         Tarea tareaExistente = new Tarea();
-        tareaExistente.setId(72L);
+        tareaExistente.setId(73L);
         
         boolean resultado = tareaDao.eliminarrTarea(tareaExistente);
         

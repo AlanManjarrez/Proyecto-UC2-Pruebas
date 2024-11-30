@@ -36,7 +36,7 @@ public class TestUsuarioInt {
     @Test
     public void testCrearUsuarioDatosValidos(){
         //Configurar datos para crear un usuario
-        Usuario usuario= new Usuario("Prueba16", "usuario", null);
+        Usuario usuario= new Usuario("Prueba18", "usuario", null);
         
         //Crear el usuario
         Usuario respuesta= usuarioDAO.crearUsuario(usuario);
@@ -117,7 +117,7 @@ public class TestUsuarioInt {
     public void testConsultarListaSinTareas(){
         //Configurar un usuario existen sin tareas
         Usuario usuario=new Usuario();
-        usuario.setId(4L);
+        usuario.setId(12L);
         usuario.setUser("Pruebas");
         usuario.setContra("usuario");
         

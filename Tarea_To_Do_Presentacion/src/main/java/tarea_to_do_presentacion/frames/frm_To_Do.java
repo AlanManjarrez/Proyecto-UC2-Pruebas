@@ -43,6 +43,8 @@ public class frm_To_Do extends javax.swing.JFrame {
         controlU =new Control_Usuario();
         controlT= new Control_Tarea();
         llenarTabla(jTarea, controlU.listaTareaUsuario(this.usuario));
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**

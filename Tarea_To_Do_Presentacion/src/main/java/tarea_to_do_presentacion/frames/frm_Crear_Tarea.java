@@ -1,6 +1,7 @@
 package tarea_to_do_presentacion.frames;
 
 import static java.awt.SystemColor.control;
+import java.awt.event.KeyEvent;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import tarea_to_do_control_tarea.negocio.Control_Tarea;
@@ -24,6 +25,8 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
         initComponents();
         this.control = new Control_Tarea();
         this.usuario = usuario;
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -183,9 +186,31 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
 
     private void btnCrearTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearTareaActionPerformed
         // TODO add your handling code here:
+        String nombre= txtNombre.getText().trim();
+        String descrip= txtDescripcion.getText().trim();
+        
+        if (nombre.isBlank() || nombre.replace(" ", "").isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre de la tarea debe contener al menos un caracteres valido");
+            return;
+        }
+        
+        if (nombre.length() > 100) {
+            JOptionPane.showMessageDialog(null, "El nombre de la tarea no puede exceder los 100 caracteres");
+            return;
+        }
+        
+        if (descrip.isBlank() || descrip.replace(" ", "").isEmpty()) {
+            JOptionPane.showMessageDialog(null, "La descripcion de la tarea debe contener al menos un caracter valido");
+            return;
+        }
+        
+        if (descrip.length()  > 500) {
+            JOptionPane.showMessageDialog(null, "La descripcion de la tarea no puede exceder los 500 caracteres");
+            return;
+        }
+        
+        
         if (!txtNombre.getText().isBlank() && !txtDescripcion.getText().isBlank()) {
-            String nombre= txtNombre.getText();
-            String descrip= txtDescripcion.getText();
             
             Calendar fecha= Calendar.getInstance();
             
@@ -218,6 +243,10 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
         }
         
         String texto = txtNombre.getText();
+        
+        if (texto.length() >= 101 && caracter != KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+        }
 
         if (caracter == ' ' && texto.endsWith(" ")) {
             evt.consume();  
@@ -232,7 +261,11 @@ public class frm_Crear_Tarea extends javax.swing.JFrame {
         }
         
         String texto = txtDescripcion.getText();
-
+        
+        if (texto.length() >= 501 && caracter != KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+        }
+        
         if (caracter == ' ' && texto.endsWith(" ")) {
             evt.consume();  
         }

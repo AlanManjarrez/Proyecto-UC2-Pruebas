@@ -1,6 +1,7 @@
 package tarea_to_do_presentacion.frames;
 
 import static java.awt.SystemColor.control;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import tarea_to_do_control_usuario.negocio.Control_Usuario;
 import tarea_to_do_dto.dto.Usuario_DTO;
@@ -20,6 +21,8 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
     public frm_Inicio_Sesion() {
         initComponents();
         this.control = new Control_Usuario();
+        setResizable(false);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -174,11 +177,34 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        // TODO add your handling code here:
+        String nUsuario = txtUsuario.getText().trim();
+        
+        if (nUsuario.isBlank() || nUsuario.replace(" ", "").isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre de usuario debe contener al menos un carácter válido.");
+            return;
+        }    
+        
+        if (nUsuario.length() > 100) {
+            JOptionPane.showMessageDialog(null, "El nombre de usuario no puede exceder los 100 caracteres.");
+            return;
+        }
+        
+        char[] contra = txtContra.getPassword();
+        String passwordString = new String(contra).trim(); // Convertir a String y eliminar espacios en blanco
+
+        // Validar que la contraseña no esté vacía o solo contenga espacios
+        if (passwordString.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "La contraseña no puede estar vacía o contener solo espacios.");
+            return;
+        }
+        
+        if (passwordString.length() > 100) {
+            JOptionPane.showMessageDialog(null, "La contraseña no puede exceder los 100 caracteres");
+            return;
+        }
+        
+        
         if (!txtUsuario.getText().isBlank() && txtContra.getPassword() != null) {
-            String nUsuario = txtUsuario.getText();
-            char[] contra = txtContra.getPassword();
-            String passwordString = new String(contra);
             Usuario_DTO usuario = new Usuario_DTO(nUsuario, passwordString, null);
             Usuario_DTO usuarioEntrada = control.iniciarSesion(usuario);
 
@@ -208,6 +234,12 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
         
         String texto = txtUsuario.getText();
 
+        // Prevenir que se ingrese más de 100 caracteres
+        if (texto.length() >= 101 && caracter != KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+        }
+        
+        // Prevenir espacios consecutivos
         if (caracter == ' ' && texto.endsWith(" ")) {
             evt.consume();  
         }
@@ -220,8 +252,13 @@ public class frm_Inicio_Sesion extends javax.swing.JFrame {
             evt.consume();  
         }
         
-        String texto = txtContra.getText();
+        char[] contra = txtContra.getPassword();
+        String texto = new String(contra);
 
+        if (texto.length() >= 101 && caracter != KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+        }
+        
         if (caracter == ' ' && texto.endsWith(" ")) {
             evt.consume();  
         }
