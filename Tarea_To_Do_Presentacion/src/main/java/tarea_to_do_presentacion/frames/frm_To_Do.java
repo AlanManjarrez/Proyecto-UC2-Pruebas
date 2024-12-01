@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import com.id.tarea_to_do_modulofuturo.Control_Notificacion;
 import tarea_to_do_control_tarea.negocio.Control_Tarea;
 import tarea_to_do_control_usuario.negocio.Control_Usuario;
 import tarea_to_do_dto.dto.Estado_DTO;
@@ -30,7 +31,8 @@ import tarea_to_do_dto.dto.Usuario_DTO;
  * @author Jesus Eduardo Villanueva Godoy 235078
  */
 public class frm_To_Do extends javax.swing.JFrame {
-
+    
+    Control_Notificacion controlNotificacion;
     Usuario_DTO usuario;
     Control_Usuario controlU;
     Control_Tarea controlT;
@@ -40,11 +42,13 @@ public class frm_To_Do extends javax.swing.JFrame {
     public frm_To_Do(Usuario_DTO usuario) {
         initComponents();
         this.usuario = usuario;
+        controlNotificacion = new Control_Notificacion();
         controlU =new Control_Usuario();
         controlT= new Control_Tarea();
         llenarTabla(jTarea, controlU.listaTareaUsuario(this.usuario));
         setResizable(false);
         setLocationRelativeTo(null);
+        mostrarNotificacionInicio();
     }
 
     /**
@@ -361,7 +365,7 @@ public class frm_To_Do extends javax.swing.JFrame {
 
         modelo.addColumn("ID");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 
         for (Tarea_DTO tarea : tareas) {
@@ -500,6 +504,13 @@ public class frm_To_Do extends javax.swing.JFrame {
 
     }
     
+    private void mostrarNotificacionInicio() {
+        String mensaje = controlNotificacion.generarMensajeNotificacion(usuario);
+
+        if (!mensaje.isEmpty()) {
+            JOptionPane.showMessageDialog(this, mensaje, "Notificación", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     
     private void mostrarDescripcionTarea(Tarea_DTO tarea) {
         JOptionPane.showMessageDialog(this, tarea.getDescripcion(),"Descripción de la Tarea: " + tarea.getDescripcion(), JOptionPane.INFORMATION_MESSAGE);

@@ -38,7 +38,7 @@ public class Tarea implements Serializable {
     private Estado estado;
     
     @Column(name = "fecha", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar fecha;
     
     @ManyToOne(cascade = CascadeType.PERSIST)

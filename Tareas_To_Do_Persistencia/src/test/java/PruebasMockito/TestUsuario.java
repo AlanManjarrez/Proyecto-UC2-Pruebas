@@ -55,6 +55,7 @@ public class TestUsuario {
     @Mock
     private EntityTransaction mockEntityTransaction;
 
+    
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);

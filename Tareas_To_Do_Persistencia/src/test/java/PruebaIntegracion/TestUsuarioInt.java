@@ -36,7 +36,7 @@ public class TestUsuarioInt {
     @Test
     public void testCrearUsuarioDatosValidos(){
         //Configurar datos para crear un usuario
-        Usuario usuario= new Usuario("Prueba18", "usuario", null);
+        Usuario usuario= new Usuario("Prueba40", "usuario", null);
         
         //Crear el usuario
         Usuario respuesta= usuarioDAO.crearUsuario(usuario);
@@ -63,8 +63,8 @@ public class TestUsuarioInt {
     public void testIniciarSesionDatosValidos(){
         //Configurar un usuario existente
         Usuario usuario=new Usuario();
-        usuario.setUser("JOSH");
-        usuario.setContra("123");
+        usuario.setUser("Prueba");
+        usuario.setContra("usuario");
         
         //Iniciar sesion
         Usuario respuesta = usuarioDAO.IniciarSesión(usuario);
@@ -76,8 +76,8 @@ public class TestUsuarioInt {
         assertTrue(usuario.equals(respuesta), "Los usuarios deberían ser iguales");
 
         // Asegurarse de que el nombre de usuario y la contraseña coincidan
-        assertEquals("JOSH", respuesta.getUser(), "El nombre de usuario debe ser 'JOSH'");
-        assertEquals("123", respuesta.getContra(), "La contraseña debe ser '123'");
+        assertEquals("Prueba", respuesta.getUser(), "El nombre de usuario debe ser 'JOSH'");
+        assertEquals("usuario", respuesta.getContra(), "La contraseña debe ser '123'");
         
     }
     
@@ -100,7 +100,7 @@ public class TestUsuarioInt {
     public void testConsultarListaConTareas(){
         //Configurar un usuario existente
         Usuario usuario=new Usuario();
-        usuario.setId(2L);
+        usuario.setId(1L);
         usuario.setUser("jesus");
         usuario.setContra("123");
         
@@ -117,7 +117,7 @@ public class TestUsuarioInt {
     public void testConsultarListaSinTareas(){
         //Configurar un usuario existen sin tareas
         Usuario usuario=new Usuario();
-        usuario.setId(12L);
+        usuario.setId(111L);
         usuario.setUser("Pruebas");
         usuario.setContra("usuario");
         
@@ -133,7 +133,7 @@ public class TestUsuarioInt {
     public void testConsultarListaConTareasPorUnEstado(){
         //Configurar un usuario existente con tareas
         Usuario usuario=new Usuario();
-        usuario.setId(2L);
+        usuario.setId(1L);
         usuario.setUser("jesus");
         usuario.setContra("123");
         
@@ -149,7 +149,7 @@ public class TestUsuarioInt {
     public void testConsultarListaDeTareasPorUnEstadoQueNotieneEsasTareas(){
         //Configurar un usuario existen con tareas
         Usuario usuario=new Usuario();
-        usuario.setId(2L);
+        usuario.setId(1L);
         usuario.setUser("jesus");
         usuario.setContra("123");
         

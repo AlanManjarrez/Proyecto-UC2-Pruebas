@@ -5,9 +5,11 @@ import java.util.Calendar;
 import tarea_to_do_dto.dto.Estado_DTO;
 import tarea_to_do_dto.dto.Tarea_DTO;
 import tarea_to_do_dto.dto.Usuario_DTO;
+import tarea_to_do_dto.dto.Notificacion_DTO;
 import tareas_to_do_persistencia.entity_class.Estado;
 import tareas_to_do_persistencia.entity_class.Tarea;
 import tareas_to_do_persistencia.entity_class.Usuario;
+import tareas_to_do_persistencia.entity_class.Notificacion;
 
 /**
  *
@@ -89,5 +91,17 @@ public class Convertidor {
     
     public Estado convertiEstado(Estado_DTO estado){
         return Estado.valueOf(estado.name());
+    }
+    
+    public Notificacion_DTO convNotificacion_DTO(Notificacion noti){
+        if (noti == null) {
+            return null;
+        }
+        Notificacion_DTO notifi=new Notificacion_DTO();
+        notifi.setFecCalendar(noti.getFechaCreacion());
+        notifi.setMensaje(noti.getMensaje());
+        notifi.setUsuario(convUsuarioDTO(noti.getUsuario()));
+        
+        return notifi;
     }
 }

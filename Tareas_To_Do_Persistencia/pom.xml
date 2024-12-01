@@ -131,6 +131,10 @@
                         <param>PrueasIntegracion.*</param>
                     </targetTests>
                     <verbose>true</verbose>
+                    <excludedClasses>
+                        <param>tareas_to_do_persistencia.entity_class.Notificacion</param>
+                        <param>tareas_to_do_persistencia.daos.Notificacion_dao</param>
+                    </excludedClasses>
                 </configuration>
             </plugin>
             
@@ -155,6 +159,7 @@
                             <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
                             <excludes>
                                 <exclude>*/entity_class/*</exclude> 
+                                <exclude>*/daos/Notificacion_dao.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>

@@ -38,7 +38,7 @@ public class TestTareaInt {
     public void testCrearTarea() {
         // Configurar los datos para crear una tarea
         Usuario usuario = new Usuario();
-        usuario.setId(1L); // ID de usuario existente en tu base de datos
+        usuario.setId(3L); // ID de usuario existente en tu base de datos
 
         Tarea nuevaTarea = new Tarea();
         nuevaTarea.setNombre("Tarea de prueba");
@@ -58,12 +58,12 @@ public class TestTareaInt {
 
     }
     
-   
+    
     @Test
     public void testEditarTarea() {
         
         Tarea tareaCompartida= new Tarea();
-        tareaCompartida.setId(21L);
+        tareaCompartida.setId(1L);
         tareaCompartida.setNombre("Tarea modificada");
         tareaCompartida.setDescripcion("Descripción modificada");
         tareaCompartida.setEstado(Estado.COMPLETADAS);
@@ -84,10 +84,10 @@ public class TestTareaInt {
     @Test
     public void testCambiarEstado(){
         Tarea tareaExistente = new Tarea();
-        tareaExistente.setId(21L);
+        tareaExistente.setId(1L);
 
         // Cambiar el estado de la tarea
-        Estado nuevoEstado = Estado.PENDIENTES;
+        Estado nuevoEstado = Estado.COMPLETADAS;
         Tarea tareaActualizada = tareaDao.cambiarEstado(tareaExistente, nuevoEstado);
 
         // Verificar que el estado se ha cambiado correctamente
@@ -99,7 +99,7 @@ public class TestTareaInt {
     @Test
     public void testEliminarTarea(){
         Tarea tareaExistente = new Tarea();
-        tareaExistente.setId(73L);
+        tareaExistente.setId(55L);
         
         boolean resultado = tareaDao.eliminarrTarea(tareaExistente);
         
