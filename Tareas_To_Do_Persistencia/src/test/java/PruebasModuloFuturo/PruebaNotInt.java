@@ -41,7 +41,7 @@ public class PruebaNotInt {
 
         Calendar ahora = Calendar.getInstance();
         Calendar fechaLimiteTarea = (Calendar) ahora.clone();
-        fechaLimiteTarea.add(Calendar.HOUR, -1); // 1 hora atrás, puedes ajustar a 2 horas si lo deseas
+        fechaLimiteTarea.add(Calendar.HOUR, +1); // 1 hora 
 
         // Crear una tarea
         Tarea tare = new Tarea();

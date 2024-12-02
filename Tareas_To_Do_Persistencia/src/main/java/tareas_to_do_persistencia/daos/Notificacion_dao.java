@@ -42,15 +42,15 @@ public class Notificacion_dao {
 
             // Obtener las tareas próximas
             List<Tarea> tareasProximas = entityManager.createQuery(
-                    "SELECT t FROM tarea t WHERE t.usuario = :usuario AND t.estado = :estado AND t.fecha BETWEEN :dosHorasAntes AND :horaActual",
+                    "SELECT t FROM tarea t WHERE t.usuario = :usuario AND t.estado = :estado AND t.fecha BETWEEN :horaActual AND :dosHorasDespues",
                     Tarea.class)
                     .setParameter("usuario", usuario)
                     .setParameter("estado", Estado.PENDIENTES)
                     .setParameter("horaActual", ahora.getTime())
-                    .setParameter("dosHorasAntes", obtenerDosHorasAntes(ahora).getTime())
+                    .setParameter("dosHorasDespues", obtenerDosHorasDespues(ahora).getTime())
                     .getResultList();
 
-            // Solo procesar si hay tareas próximas
+            
             if (!tareasProximas.isEmpty()) {
                 for (Tarea tarea : tareasProximas) {
                     Notificacion notificacion = new Notificacion();
@@ -79,9 +79,9 @@ public class Notificacion_dao {
         return notificaciones;    
     }
 
-    public Calendar obtenerDosHorasAntes(Calendar ahora) {
+    public Calendar obtenerDosHorasDespues(Calendar ahora) {
         Calendar dosHorasAntes = (Calendar) ahora.clone();
-        dosHorasAntes.add(Calendar.HOUR_OF_DAY, -2); // Restar dos horas
+        dosHorasAntes.add(Calendar.HOUR_OF_DAY, +2); // Restar dos horas
         return dosHorasAntes;
     }
     

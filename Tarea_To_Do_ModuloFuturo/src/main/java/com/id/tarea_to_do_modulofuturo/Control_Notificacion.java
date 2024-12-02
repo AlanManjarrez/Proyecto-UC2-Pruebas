@@ -3,8 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.id.tarea_to_do_modulofuturo;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import tareas_to_do_persistencia.daos.Notificacion_dao;
 import tareas_to_do_persistencia.entity_class.Notificacion;
 import tarea_to_do_dto.dto.Notificacion_DTO;
@@ -40,11 +43,30 @@ public class Control_Notificacion {
         List<Notificacion_DTO> notificaciones = obtenerNotificaciones(usuario);
 
         if (notificaciones.isEmpty()) {
-            return ""; // Sin notificación
+            return ""; 
         } else if (notificaciones.size() == 1) {
-            return "Tiene una tarea pendiente: " + notificaciones.get(0).getMensaje();
+            String mensajeOriginal = notificaciones.get(0).getMensaje();
+            String horaVencimiento = extraerHora(mensajeOriginal); 
+            return "Tiene una tarea pendiente: Vence a las " + horaVencimiento;
         } else {
             return "Tiene " + notificaciones.size() + " tareas pendientes.";
+        }
+    }
+
+    private String extraerHora(String mensaje) {
+        try {
+      
+            int inicioFecha = mensaje.indexOf("vence a las") + 12; 
+            String fechaCompleta = mensaje.substring(inicioFecha).trim();
+
+            // Convertir la fecha completa a un formato más legible
+            SimpleDateFormat formatoEntrada = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+            SimpleDateFormat formatoSalida = new SimpleDateFormat("HH:mm:ss", Locale.US); 
+            Date fecha = formatoEntrada.parse(fechaCompleta); 
+            return formatoSalida.format(fecha); 
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return "Hora no disponible"; 
         }
     }
     
