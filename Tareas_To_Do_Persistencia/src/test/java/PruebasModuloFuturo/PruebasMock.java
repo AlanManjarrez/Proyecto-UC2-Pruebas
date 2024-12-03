@@ -85,7 +85,7 @@ public class PruebasMock {
         tarea.setId(1L);
         tarea.setNombre("Entrega de proyecto");
         Calendar fechaLimite = Calendar.getInstance();
-        tarea.setFecha(fechaLimite);  // Asegúrate de que el campo "fecha" coincida con el de la consulta
+        tarea.setFecha(fechaLimite); 
         tarea.setEstado(Estado.PENDIENTES);
         tarea.setUsuario(usuario);
 

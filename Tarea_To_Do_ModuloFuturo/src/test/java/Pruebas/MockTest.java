@@ -49,7 +49,6 @@ public class MockTest {
 
     @BeforeEach
     void setUp() {
-        // Inicializar los mocks antes de cada prueba
         MockitoAnnotations.openMocks(this);
         controlNotificacion = new Control_Notificacion();
         controlNotificacion.noti = notiDaoMock;

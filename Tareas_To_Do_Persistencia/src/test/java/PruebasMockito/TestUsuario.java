@@ -89,23 +89,21 @@ public class TestUsuario {
     public void testCrearUsuarioConContrasenaVacia() {
         Usuario usuario = new Usuario();
         usuario.setUser("Juan Creado");
-        usuario.setContra("");  // Contraseña vacía
+        usuario.setContra("");  
 
         usuarioDAO.crearUsuario(usuario);
 
-        // Verificamos que no se ha persistido el usuario
         verify(mockEntityManager, never()).persist(usuario);
     }
     
     @Test
     public void testCrearUsuarioConDatosEnBlanco() {
         Usuario usuario = new Usuario();
-        usuario.setUser("");  // Nombre de usuario en blanco
-        usuario.setContra("");  // Contraseña en blanco
+        usuario.setUser("");  
+        usuario.setContra("");  
 
         usuarioDAO.crearUsuario(usuario);
 
-        // Verificamos que no se ha persistido el usuario
         verify(mockEntityManager, never()).persist(usuario);
     }
     
@@ -120,12 +118,10 @@ public class TestUsuario {
     
     @Test
     public void testCrearUsuarioConCampoObligatorioNull() {
-        Usuario usuario = new Usuario(null, "usuarioTest", null); // Nombre es null
+        Usuario usuario = new Usuario(null, "usuarioTest", null); 
 
-        // Ejecutar la creación del usuario
         usuarioDAO.crearUsuario(usuario);
 
-        // Verificar que el EntityManager no persiste el usuario
         verify(mockEntityManager, never()).persist(usuario);
     }
 
@@ -214,9 +210,8 @@ public class TestUsuario {
     @Test
     public void testConsultarListaTareasConUsuarioInexistente() {
         Usuario usuario = new Usuario();
-        usuario.setId(999L); // ID inexistente
+        usuario.setId(999L); 
 
-        // Simular la consulta con un ID inexistente
         List<Tarea> tareasSimuladas = new ArrayList<>();
         TypedQuery<Tarea> queryMock = mock(TypedQuery.class);
         when(mockEntityManager.createQuery(anyString(), eq(Tarea.class))).thenReturn(queryMock);
@@ -225,7 +220,6 @@ public class TestUsuario {
 
         List<Tarea> tareasEncontradas = usuarioDAO.consultarLista(usuario);
 
-        // Verificar que la lista de tareas está vacía
         assertNotNull(tareasEncontradas);
         assertTrue(tareasEncontradas.isEmpty(), "La lista de tareas debe estar vacía");
     }
@@ -270,7 +264,6 @@ public class TestUsuario {
         Usuario usuario = new Usuario();
         usuario.setId(10L);
 
-        // Simula la consulta de tareas para un usuario que no tiene tareas asignadas
         List<Tarea> tareasSimuladas = new ArrayList<>();
         TypedQuery<Tarea> queryMock = mock(TypedQuery.class);
         when(mockEntityManager.createQuery(anyString(), eq(Tarea.class))).thenReturn(queryMock);
@@ -296,11 +289,8 @@ public class TestUsuario {
 
         assertNull(result, "Debe devolver null si no se encuentra el usuario.");
 
-        // Verificar que la transacción comenzó
         verify(mockEntityTransaction).begin();
-        // Verificar que commit no se llama
         verify(mockEntityTransaction, never()).commit();
-        // Verificar que el EntityManager fue cerrado
         verify(mockEntityManager).close();
     }
     
@@ -312,21 +302,16 @@ public class TestUsuario {
         when(mockEntityManager.createQuery(anyString(), eq(Tarea.class))).thenReturn(queryMock);
         when(queryMock.setParameter(anyString(), any())).thenReturn(queryMock);
 
-        // Simula que la transacción está activa
         when(mockEntityTransaction.isActive()).thenReturn(true);
 
-        // Simula una excepción al obtener resultados
         when(queryMock.getResultList()).thenThrow(RuntimeException.class);
 
         List<Tarea> tareas = usuarioDAO.consultarLista(usuarioMock);
 
         assertNull(tareas, "Debe devolver null si ocurre una excepción genérica.");
 
-        // Verificar que se comenzó la transacción
         verify(mockEntityTransaction).begin();
-        // Verificar que se llama a rollback debido a la excepción
         verify(mockEntityTransaction).rollback();
-        // Verificar que el EntityManager fue cerrado
         verify(mockEntityManager).close();
     }
     
@@ -339,21 +324,16 @@ public class TestUsuario {
         when(mockEntityManager.createQuery(anyString(), eq(Tarea.class))).thenReturn(queryMock);
         when(queryMock.setParameter(anyString(), any())).thenReturn(queryMock);
 
-        // Simula que la transacción está activa
         when(mockEntityTransaction.isActive()).thenReturn(true);
 
-        // Simula una excepción genérica
         when(queryMock.getResultList()).thenThrow(RuntimeException.class);
 
         List<Tarea> tareas = usuarioDAO.consultarListaEstadoCompletado(usuarioMock, estadoMock);
 
         assertNull(tareas, "Debe devolver null si ocurre una excepción genérica.");
 
-        // Verificar que se comenzó la transacción
         verify(mockEntityTransaction).begin();
-        // Verificar que se llama a rollback debido a la excepción
         verify(mockEntityTransaction).rollback();
-        // Verificar que el EntityManager fue cerrado
         verify(mockEntityManager).close();
     }
     
@@ -365,21 +345,16 @@ public class TestUsuario {
         when(mockEntityManager.createQuery(anyString(), eq(Usuario.class))).thenReturn(queryMock);
         when(queryMock.setParameter(anyString(), any())).thenReturn(queryMock);
 
-        // Simula que la transacción está activa
         when(mockEntityTransaction.isActive()).thenReturn(true);
 
-        // Simula una excepción genérica durante la ejecución de la consulta
         when(queryMock.getSingleResult()).thenThrow(RuntimeException.class);
 
         Usuario resultado = usuarioDAO.IniciarSesión(usuarioMock);
 
         assertNull(resultado, "Debe devolver null si ocurre una excepción genérica.");
 
-        // Verificar que se inició la transacción
         verify(mockEntityTransaction).begin();
-        // Verificar que se llama a rollback debido a la excepción
         verify(mockEntityTransaction).rollback();
-        // Verificar que el EntityManager fue cerrado
         verify(mockEntityManager).close();
     }
     

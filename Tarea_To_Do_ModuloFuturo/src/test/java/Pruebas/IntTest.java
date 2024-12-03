@@ -27,7 +27,6 @@ public class IntTest {
     public IntTest() {
     }
     
-    
     @Test
     void testObtenerNotificaciones_NoEstaVacia() {
         Control_Notificacion control=new Control_Notificacion();
@@ -51,9 +50,8 @@ public class IntTest {
         // Verificar que la lista no esté vacía
         assertNotNull(resultado, "La lista de notificaciones no debe ser nula");
 
-    }
-    
-    
+    }          
+      
     @Test
     void testObtenerNotificaciones_Vacia() {
         Control_Notificacion control=new Control_Notificacion();
